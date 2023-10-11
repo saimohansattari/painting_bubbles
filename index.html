@@ -3,12 +3,19 @@
   <head>
     <title>Simple Paint App</title>
     <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
       #canvas {
         border: 2px solid #000;
       }
     </style>
   </head>
   <body>
+    <h1>Simple paint</h1>
     <canvas id="canvas" width="800" height="400"></canvas>
     <button id="resetButton">Reset</button>
 
