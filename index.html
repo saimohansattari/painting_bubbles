@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Paint App</title>
+    <style>
+      #canvas {
+        border: 2px solid #000;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="800" height="400"></canvas>
+    <button id="resetButton">Reset</button>
+
+    <script>
+      const canvas = document.getElementById("canvas");
+      const context = canvas.getContext("2d");
+      const resetButton = document.getElementById("resetButton");
+      let isDrawing = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      // Function to draw a circle
+      function drawCircle(x, y, radius) {
+        context.beginPath();
+        context.arc(x, y, radius, 0, 2 * Math.PI);
+        context.fillStyle = getRandomColor();
+        context.fill();
+      }
+
+      // Function to get a random color
+      function getRandomColor() {
+        const letters = "0123456789ABCDEF";
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+
+      // Event listener for mouse down
+      canvas.addEventListener("mousedown", (e) => {
+        isDrawing = true;
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+      });
+
+      // Event listener for mouse move
+      canvas.addEventListener("mousemove", (e) => {
+        if (!isDrawing) return;
+
+        const [x, y] = [e.offsetX, e.offsetY];
+        const distance = Math.sqrt((x - lastX) ** 2 + (y - lastY) ** 2);
+        drawCircle(lastX, lastY, distance / 2);
+
+        [lastX, lastY] = [x, y];
+      });
+
+      // Event listener for mouse up
+      canvas.addEventListener("mouseup", () => {
+        isDrawing = false;
+      });
+
+      // Event listener for mouse out
+      canvas.addEventListener("mouseout", () => {
+        isDrawing = false;
+      });
+
+      // Event listener for reset button
+      resetButton.addEventListener("click", () => {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+      });
+    </script>
+  </body>
+</html>
